@@ -10,7 +10,17 @@ from static.static_deobfuscate import *
 from ui.AboutWindow import AboutWindow
 from ui.UIManager import UIManager
 
-
+'''
+debug in wing
+'''
+import wingdbstub
+wingdbstub.Ensure()
+'''
+VMAttack 管理器类
+包括了：
+1. VM解析器
+2. UI管理器
+'''
 class VMAttack_Manager(object):
     def __init__(self):
         self.choice = None
@@ -83,6 +93,9 @@ class VMAttack_Manager(object):
         self._vmr = get_vmr()
 
     ### UI MANAGEMENT ###
+    '''
+    IDA插件的UI事件管理
+    '''    
     @staticmethod
     def show_about():
         AboutWindow().exec_()
@@ -102,7 +115,9 @@ class VMAttack_Manager(object):
         heads = Heads(SegStart(ScreenEA()), SegEnd(ScreenEA()))
         for i in heads:
             SetColor(i, CIC_ITEM, 0xFFFFFF)
-
+    '''
+    添加菜单和绑定菜单对应的响应函数
+    '''
     def extend_menu(self):
         """
         Extends the menu.
@@ -181,7 +196,7 @@ class VMAttack_Manager(object):
 
         except Exception, e:
             print "[*] Menu could not be added! Following Error occurred:\n %s" % e.message
-
+# UI反初始化函数，清除菜单选项
     def revert_menu(self):
         for i in self.menu_extensions:
             del_menu_item(i)
@@ -280,6 +295,10 @@ class VMAttack(plugin_t):
     wanted_name = "VMAttack"
     wanted_hotkey = ""
 
+    '''
+    初始化，保存VMattack管理器对象，
+    调用VMA管理器的菜单初始化函数，在IDA上扩展一个菜单绑定菜单对应的事件
+    '''
     def init(self):
         self.vma_mgr = None
         try:
@@ -297,6 +316,10 @@ class VMAttack(plugin_t):
                 del self.vma_mgr
             return PLUGIN_SKIP
 
+    '''
+    run:插件在plugin下被选择后的逻辑
+    这里是在Edit/Plugins目录下 新增一个选项Load VMAttack
+    '''
     def run(self, arg):
         try:
             self.vma_mgr = get_mgr()
@@ -308,13 +331,18 @@ class VMAttack(plugin_t):
             msg("[*] Failed to initialize VMAttack.\n %s\n" % e.message)
             msg(e.args)
 
+    '''
+    term相当于ida-python插件里的默认的析构函数    
+    '''
     def term(self):
         if self.vma_mgr is not None:
             get_log().finalize()
             self.vma_mgr.revert_menu()
             del_vmr()
             del self
-
+'''
+从VMAttack_plugin_stub.py转入到VMAttack的入口
+'''
 def PLUGIN_ENTRY():
     return VMAttack()
 
@@ -322,6 +350,9 @@ def PLUGIN_ENTRY():
 # Singelton VMA MGR
 vma_mgr = None
 
+'''
+全局有一个VM分析器，由VMAttack_Manager类返回
+'''
 def get_mgr():
     global vma_mgr
     if vma_mgr is None:
