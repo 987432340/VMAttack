@@ -16,7 +16,10 @@ from lib.Util import *
 from _collections import defaultdict
 from lib.Util import get_reg_class, get_reg
 
-
+"""
+IDADebugger继承了DBG_Hooks类，会收到调试回调函数
+参考：https://github.com/zachriggle/idapython/blob/master/examples/debughook.py
+"""
 class IDADebugger(DBG_Hooks, Debugger):
     def __init__(self, *args):
         super(IDADebugger, self).__init__(*args)
@@ -34,13 +37,17 @@ class IDADebugger(DBG_Hooks, Debugger):
 
         self.IAT = []
         self.func_args = defaultdict(lambda: set())
-
+"""
+@property的作用是把方法变成属性
+http://python.jobbole.com/80955/
+"""
     @property
     def module_name(self):
         return self._module_name
 
     def convert(self, value):
         """
+        转换到16进制
         Convert a value into its hex representation.
         :param value:
         :return:
@@ -50,6 +57,7 @@ class IDADebugger(DBG_Hooks, Debugger):
 
     def disconv(self, value):
         """
+        为了让加载的trace和生成的trace等价，转换反汇编到标准的表示。
         Convert the DISASM to a standardized representation. This enables the equivalence between generated traces and loaded traces.
         :param value: a disasm str
         :return: standardized str
@@ -114,6 +122,7 @@ class IDADebugger(DBG_Hooks, Debugger):
     # TODO IAT checks
     def gen_trace(self, trace_start=BeginEA(), trace_end=BADADDR):
         """
+        主动生成trace
         Generate trace for the loaded binary.
         :param trace_start:
         :param trace_end:
@@ -217,7 +226,7 @@ class IDADebugger(DBG_Hooks, Debugger):
 
     def dbg_trace(self, tid, ea):
         """
-
+        处理trace事件回调
         :param tid:
         :param ea:
         :return:
