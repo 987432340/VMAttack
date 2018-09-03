@@ -17,6 +17,9 @@ from idautils import *
 from idaapi import *
 from idc import *
 
+"""
+单例模式的调试器处理类，负责统一指挥所有调试器相关动作
+"""
 class DebuggerHandler(object):
     def __init__(self, func=None):
         self.dbg = None
@@ -59,6 +62,9 @@ class DebuggerHandler(object):
         self.dbg.hook_dbg()
 
     def gen_instruction_trace(self, start=BeginEA(), end=BADADDR):
+        """
+        调用具体调试器生成trace的功能
+        """
         self._trace = Trace()
         if not self.check:
             self.dbg = self.load_dbg()
@@ -86,6 +92,7 @@ def ida_offset(string):
 
 def load():
     """
+    从文件加载trace
     Load a trace from file. Supported are IDAs txt trace files and VMAttacks json files. Further OllyDBG and ImmunityDBG traces are supported but have slightly limited analysis capabilities.
     :param path: system path to trace file
     :return: trace object
@@ -291,6 +298,9 @@ def load():
 
 
 def save(trace):
+    """
+    保存到trace文件
+    """
     try:
         fd = QtGui.QFileDialog()
         fd.setFileMode(QtGui.QFileDialog.AnyFile)

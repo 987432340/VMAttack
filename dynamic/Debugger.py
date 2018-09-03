@@ -1,7 +1,9 @@
 # coding=utf-8
 __author__ = 'Anatoli Kalysch'
 
-
+"""
+Debugger类为接口类，供子类如IDADebugger继承
+"""
 class Debugger(object):
     def __init__(self):
         self.registers = []
