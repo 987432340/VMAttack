@@ -1,6 +1,10 @@
 # coding=utf-8
-from copy import deepcopy
 
+"""
+Python中的对象之间赋值时是按引用传递的，如果需要拷贝对象，需要使用标准库中的copy模块
+具体参考：https://www.cnblogs.com/Richardzhu/p/4723750.html
+"""
+from copy import deepcopy
 from lib.VMRepresentation import get_vmr
 
 __author__ = 'Anatoli Kalysch'
