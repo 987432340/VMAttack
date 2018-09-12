@@ -3,6 +3,11 @@
 @author: Tobias
 """
 
+"""
+使用distorm3反汇编引擎
+该库停止更新，不支持64bit的python
+IDA7.0安装的python为64bit的python，所以在7.0上跑不起来，IDA6.8可以运行
+"""
 import distorm3
 
 from lib import StartVal as SV

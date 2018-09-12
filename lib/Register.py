@@ -27,6 +27,7 @@ _registerClasses = [
 
 def get_reg_class(reg):
     """
+    返回reg的类型，如ax返回0
     @brief Determines the register class of a given reg.
     All different register names that address the same register
     belong to the same register class e.g.: 'ax' and 'eax'
@@ -49,6 +50,7 @@ def get_reg_class(reg):
 
 def get_reg_by_size(reg_class, reg_size):
     """
+    通过reg的class索引，以及reg的大小，返回具体的寄存器。如get_reg_by_size(0, 32)返回eax
     @brief Determines the register by its size and class
     @param reg_class The register class of the register
     @param reg_size The size of the register
@@ -75,6 +77,7 @@ def get_reg_by_size(reg_class, reg_size):
 
 def get_size_by_reg(reg):
     """
+    获取寄存器的bit位大小
     @brief Determines the size of the given register
     @param reg Register
     @return Size of register
@@ -99,6 +102,7 @@ def get_size_by_reg(reg):
 
 def get_reg_class_lst(reg_class):
     """
+    返回某一个类的寄存器list
     @return Returns the whole list of a given register class 
     """
     return _registerClasses[reg_class]
