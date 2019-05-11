@@ -37,11 +37,10 @@ class IDADebugger(DBG_Hooks, Debugger):
 
         self.IAT = []
         self.func_args = defaultdict(lambda: set())
-"""
-@property的作用是把方法变成属性
-http://python.jobbole.com/80955/
-"""
-    @property
+    """
+    @property的作用是把方法变成属性
+    http://python.jobbole.com/80955/
+    """
     def module_name(self):
         return self._module_name
 

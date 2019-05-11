@@ -14,7 +14,7 @@ from lib.TraceAnalysis import *
 from lib.VMRepresentation import get_vmr
 from ui.NotifyProgress import NotifyProgress
 from ui.UIManager import ClusterViewer
-
+from bp import *
 
 ### DEBUGGER LOADING STRATEGIES ###
 # IDA Debugger
@@ -86,6 +86,7 @@ def gen_instruction_trace(choice):
     Generate instruction trace
     :param choice: which debugger to use
     """
+    bp()
     dbg_handl = get_dh(choice)
     vmr = get_vmr()
     trace = dbg_handl.gen_instruction_trace()
@@ -275,6 +276,7 @@ def init_grading(trace):
     High grade equals importance. The higher the better. This is the initialization routine for the grading automaton. It assigns the initial grade according to the uniqueness of a line.
     :param trace: instruction trace
     """
+    bp()
     addr_count = address_count(deepcopy(trace))
     grade = len(set(i[1] for i in addr_count))
     addr_count.reverse()  # now the addrs with single occurence are at the beginning of the list

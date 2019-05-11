@@ -1,7 +1,7 @@
 # coding=utf-8
-__author__ = 'Anatoli Kalysch'
 
 from idaapi import BADADDR
+from bp import *
 
 class VMRepresentation(object):
     # private scriptor class contains the necessary info for analysis
@@ -39,6 +39,10 @@ class VMRepresentation(object):
             VMRepresentation.scriptor = VMRepresentation.__Scriptor()
 
     def __getattr__(self, item):
+        """
+        vmr = VMRepresentation()
+        当调用vmr._vm_ctx时，就从self.scriptor里找到相应的属性
+        """
         return getattr(self.scriptor, item)
 
     ### trace ###
@@ -48,6 +52,7 @@ class VMRepresentation(object):
 
     @trace.setter
     def trace(self, value):
+        bp()
         self.scriptor._trace = value
 
     ### VM init val ###
@@ -200,7 +205,7 @@ class VMContext(object):
         self.base_addr = BADADDR
         self.vm_addr = BADADDR
 
-# Singelton VMR
+# 单例
 vmr = None
 
 def get_vmr():

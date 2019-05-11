@@ -12,19 +12,18 @@ import distorm3
 
 from lib import StartVal as SV
 
-
 class Instruction(object):
     """
     @brief Implements the interface to distorm3 Instructions
+    实现了到distorm3指令的接口
     """
 
     def __init__(self, offset, code, type = distorm3.Decode32Bits, feature = 0):
         """
-        @param offset Address of the instruction
-        @param code Opcode bytes of the instruction
-        @param type Dissassemble 32 or 64 bit code
-        @param feature Possible settings for distrom3
-        not used at the moment
+        @param 指令的地址
+        @param 指令的Opcode
+        @param 32 or 64 bit code
+        @param feature Possible settings for distrom3，暂时未使用
         """
         self.valid = False
         if SV.dissassm_type == 64:
