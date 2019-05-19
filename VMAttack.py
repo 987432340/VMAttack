@@ -11,10 +11,10 @@ from ui.AboutWindow import AboutWindow
 from ui.UIManager import UIManager
 
 '''
-VMAttack ��������
-�����ˣ�
-1. VM������
-2. UI������
+VMAttack 管理器类
+包括了：
+1. VM解析器
+2. UI管理器
 '''
 class VMAttack_Manager(object):
     def __init__(self):
@@ -89,7 +89,7 @@ class VMAttack_Manager(object):
 
     ### UI MANAGEMENT ###
     '''
-    IDA�����UI�¼�����
+    IDA插件的UI事件管理
     '''    
     @staticmethod
     def show_about():
@@ -110,12 +110,10 @@ class VMAttack_Manager(object):
         heads = Heads(SegStart(ScreenEA()), SegEnd(ScreenEA()))
         for i in heads:
             SetColor(i, CIC_ITEM, 0xFFFFFF)
-    '''
-    ��Ӳ˵��Ͱ󶨲˵���Ӧ����Ӧ����
-    '''
+
     def extend_menu(self):
         """
-        Extends the menu.
+        添加菜单，以及绑定菜单项和对应的响应函数
         """
         try:
             self.revert_menu()
@@ -191,8 +189,11 @@ class VMAttack_Manager(object):
 
         except Exception, e:
             print "[*] Menu could not be added! Following Error occurred:\n %s" % e.message
-# UI����ʼ������������˵�ѡ��
+
     def revert_menu(self):
+        """
+        UI反初始化函数，清除菜单选项
+        """
         for i in self.menu_extensions:
             del_menu_item(i)
         self.ui_mgr.clear()
@@ -290,11 +291,11 @@ class VMAttack(plugin_t):
     wanted_name = "VMAttack"
     wanted_hotkey = ""
 
-    '''
-    ��ʼ��������VMattack����������
-    ����VMA�������Ĳ˵���ʼ����������IDA����չһ���˵��󶨲˵���Ӧ���¼�
-    '''
     def init(self):
+        """
+        初始化，保存VMattack管理器对象，
+        调用VMA管理器的菜单初始化函数，在IDA上扩展一个菜单绑定菜单对应的事件
+        """
         self.vma_mgr = None
         try:
             self.vma_mgr = get_mgr()
@@ -312,8 +313,8 @@ class VMAttack(plugin_t):
             return PLUGIN_SKIP
 
     '''
-    run:�����plugin�±�ѡ�����߼�
-    ��������Edit/PluginsĿ¼�� ����һ��ѡ��Load VMAttack
+    run:插件在plugin下被选择后的逻辑
+    这里是在Edit/Plugins目录下 新增一个选项Load VMAttack
     '''
     def run(self, arg):
         try:
@@ -327,7 +328,7 @@ class VMAttack(plugin_t):
             msg(e.args)
 
     '''
-    term�൱��ida-python������Ĭ�ϵ���������    
+    term相当于ida-python插件里的默认的析构函数   
     '''
     def term(self):
         if self.vma_mgr is not None:
@@ -336,7 +337,7 @@ class VMAttack(plugin_t):
             del_vmr()
             del self
 '''
-��VMAttack_plugin_stub.pyת�뵽VMAttack�����
+从VMAttack_plugin_stub.py转入到VMAttack的入口
 '''
 def PLUGIN_ENTRY():
     return VMAttack()
@@ -346,7 +347,7 @@ def PLUGIN_ENTRY():
 vma_mgr = None
 
 '''
-ȫ����һ��VM����������VMAttack_Manager�෵��
+全局有一个VM分析器，由VMAttack_Manager类返回
 '''
 def get_mgr():
     global vma_mgr
