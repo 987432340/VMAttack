@@ -1,8 +1,8 @@
-# coding=gbk
+# coding=utf-8
 __author__ = 'Anatoli Kalysch'
 
 """
-单例的日志模块，外部只需要调用LoggingEngine.get_log().log("log string")
+鍗曚緥鐨勬棩蹇楁ā鍧楋紝澶栭儴鍙渶瑕佽皟鐢↙oggingEngine.get_log().log("log string")
 """
 class LoggingEngine(object):
     logger = None

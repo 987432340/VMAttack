@@ -1,7 +1,7 @@
-# coding=gbk
+# coding=utf-8
 __author__ = 'Anatoli Kalysch'
 '''
-¹ØÓÚ´°¿Ú
+å…³äºŽçª—å£
 '''
 from UIManager import QtCore, QtWidgets
 
@@ -12,8 +12,8 @@ class AboutWindow(QtWidgets.QDialog):
         self.setWindowTitle("About ...")
         self.title = "VMAttack IDA PRO Plugin"
         self.subtitle = "IDA Pro Plugin for static and dynamic virtualization-obfuscation analysis and deobfuscation"
-        self.author = u"Anatoli Kalysch and Tobias Krau0‰8"
-        self.thanks = u"Special thanks to Johannes G0‹2tzfried for conceptual help along the way!"
+        self.author = u"Anatoli Kalysch and Tobias Krauï¿½0ï¿½8"
+        self.thanks = u"Special thanks to Johannes Gï¿½0ï¿½2tzfried for conceptual help along the way!"
         self.version = "Version 0.2"
         self.address = "Friedrich-Alexander University Erlangen-Nuremberg\n i1 Software Security Research Group \n"
 
@@ -32,7 +32,7 @@ class AboutWindow(QtWidgets.QDialog):
 
         self.show()
     '''
-    ÅäÖÃ±êÇ©µÄ×ÖÌå´óÐ¡£¬¶ÔÆë·½Ê½    
+    é…ç½®æ ‡ç­¾çš„å­—ä½“å¤§å°ï¼Œå¯¹é½æ–¹å¼    
     '''
     def config_label(self, name, size, bold=False, alignment="center"):
         label = QtWidgets.QLabel(name, self)

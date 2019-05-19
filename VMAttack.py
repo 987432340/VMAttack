@@ -11,15 +11,10 @@ from ui.AboutWindow import AboutWindow
 from ui.UIManager import UIManager
 
 '''
-debug in wing
-'''
-import wingdbstub
-wingdbstub.Ensure()
-'''
-VMAttack ¹ÜÀíÆ÷Àà
-°üÀ¨ÁË£º
-1. VM½âÎöÆ÷
-2. UI¹ÜÀíÆ÷
+VMAttack ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½
+1. VMï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+2. UIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 '''
 class VMAttack_Manager(object):
     def __init__(self):
@@ -94,7 +89,7 @@ class VMAttack_Manager(object):
 
     ### UI MANAGEMENT ###
     '''
-    IDA²å¼þµÄUIÊÂ¼þ¹ÜÀí
+    IDAï¿½ï¿½ï¿½ï¿½ï¿½UIï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½
     '''    
     @staticmethod
     def show_about():
@@ -116,7 +111,7 @@ class VMAttack_Manager(object):
         for i in heads:
             SetColor(i, CIC_ITEM, 0xFFFFFF)
     '''
-    Ìí¼Ó²Ëµ¥ºÍ°ó¶¨²Ëµ¥¶ÔÓ¦µÄÏìÓ¦º¯Êý
+    ï¿½ï¿½Ó²Ëµï¿½ï¿½Í°ó¶¨²Ëµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
     '''
     def extend_menu(self):
         """
@@ -196,7 +191,7 @@ class VMAttack_Manager(object):
 
         except Exception, e:
             print "[*] Menu could not be added! Following Error occurred:\n %s" % e.message
-# UI·´³õÊ¼»¯º¯Êý£¬Çå³ý²Ëµ¥Ñ¡Ïî
+# UIï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½Ñ¡ï¿½ï¿½
     def revert_menu(self):
         for i in self.menu_extensions:
             del_menu_item(i)
@@ -296,8 +291,8 @@ class VMAttack(plugin_t):
     wanted_hotkey = ""
 
     '''
-    ³õÊ¼»¯£¬±£´æVMattack¹ÜÀíÆ÷¶ÔÏó£¬
-    µ÷ÓÃVMA¹ÜÀíÆ÷µÄ²Ëµ¥³õÊ¼»¯º¯Êý£¬ÔÚIDAÉÏÀ©Õ¹Ò»¸ö²Ëµ¥°ó¶¨²Ëµ¥¶ÔÓ¦µÄÊÂ¼þ
+    ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½VMattackï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    ï¿½ï¿½ï¿½ï¿½VMAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä²Ëµï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½IDAï¿½ï¿½ï¿½ï¿½Õ¹Ò»ï¿½ï¿½ï¿½Ëµï¿½ï¿½ó¶¨²Ëµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Â¼ï¿½
     '''
     def init(self):
         self.vma_mgr = None
@@ -317,8 +312,8 @@ class VMAttack(plugin_t):
             return PLUGIN_SKIP
 
     '''
-    run:²å¼þÔÚpluginÏÂ±»Ñ¡ÔñºóµÄÂß¼­
-    ÕâÀïÊÇÔÚEdit/PluginsÄ¿Â¼ÏÂ ÐÂÔöÒ»¸öÑ¡ÏîLoad VMAttack
+    run:ï¿½ï¿½ï¿½ï¿½ï¿½pluginï¿½Â±ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½
+    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Edit/PluginsÄ¿Â¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ñ¡ï¿½ï¿½Load VMAttack
     '''
     def run(self, arg):
         try:
@@ -332,7 +327,7 @@ class VMAttack(plugin_t):
             msg(e.args)
 
     '''
-    termÏàµ±ÓÚida-python²å¼þÀïµÄÄ¬ÈÏµÄÎö¹¹º¯Êý    
+    termï¿½àµ±ï¿½ï¿½ida-pythonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¬ï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½    
     '''
     def term(self):
         if self.vma_mgr is not None:
@@ -341,7 +336,7 @@ class VMAttack(plugin_t):
             del_vmr()
             del self
 '''
-´ÓVMAttack_plugin_stub.py×ªÈëµ½VMAttackµÄÈë¿Ú
+ï¿½ï¿½VMAttack_plugin_stub.py×ªï¿½ëµ½VMAttackï¿½ï¿½ï¿½ï¿½ï¿½
 '''
 def PLUGIN_ENTRY():
     return VMAttack()
@@ -351,7 +346,7 @@ def PLUGIN_ENTRY():
 vma_mgr = None
 
 '''
-È«¾ÖÓÐÒ»¸öVM·ÖÎöÆ÷£¬ÓÉVMAttack_ManagerÀà·µ»Ø
+È«ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½VMï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½VMAttack_Managerï¿½à·µï¿½ï¿½
 '''
 def get_mgr():
     global vma_mgr
