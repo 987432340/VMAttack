@@ -5,6 +5,7 @@ __author__ = 'Anatoli Kalysch'
 
 from dynamic.TraceRepresentation import Trace, Traceline
 from lib.Util import *
+from lib.log import get_logger
 
 #######################################
 ### OPTIMIZATION AND RELATED FUNC   ###
@@ -91,6 +92,8 @@ def optimization_const_propagation(trace):
     :param trace: Trace object
     :return: optimized trace
     """
+    logger = get_logger("optimization_const_propagation", console_log = False, file_log = True)
+
     for line in trace:
         index = trace.index(line)
         if index == 0:
@@ -98,15 +101,20 @@ def optimization_const_propagation(trace):
         else:
             prev_line = trace[trace.index(line)-1]
 
+        logger.info("line:%s, prev_line:%s", line.disasm_str, prev_line.disasm_str)
 
         # inst and 2 operands
         if len(line.disasm) == 3:
             # inst eax ax
             if get_reg_class(line.disasm[1]) is not None and get_reg_class(line.disasm[2]) is not None and get_reg_class(line.disasm[1]) == get_reg_class(line.disasm[2]):
                 line.disasm[2] = line.ctx[get_reg(line.disasm[1], trace.ctx_reg_size)]
+                logger.info("optimization1: line:%s", line.disasm)
+
             # inst op1 reg
             elif get_reg_class(line.disasm[2]) is not None:
                 line.disasm[2] = prev_line.ctx[get_reg(line.disasm[2], trace.ctx_reg_size)]
+                logger.info("optimization1: line:%s", line.disasm)
+
             # inst op1 [reg] or inst op1 [reg +/-/... reg]
             elif line.disasm[2].startswith('[') and line.disasm[2].endswith(']'):
                 try:
@@ -128,9 +136,13 @@ def optimization_const_propagation(trace):
                     result = interprete_math_expr(operand_list, expr)
 
                     line.disasm[2] = '[' + hex(result).lstrip('0x').upper() + ''.join(c for c in exception_list) + ']'
+                    logger.info("optimization3: line:%s", line.disasm)
+
                 except:  # if it fails, we are in case inst op1 [reg]
                     if get_reg_class(line.disasm[2][1:-1]) is not None:
                         line.disasm[2] = prev_line.ctx[get_reg(line.disasm[2][1:-1], trace.ctx_reg_size)]
+                        logger.info("optimization4: line:%s", line.disasm)
+
             # inst op1 byte/word/other ptr [reg]
             elif line.disasm[2].__contains__('ptr'):
                 try:
@@ -139,17 +151,23 @@ def optimization_const_propagation(trace):
                         reg.replace('+0','')
                     replacement = prev_line.ctx[get_reg(reg, trace.ctx_reg_size)]
                     line.disasm[2] = re.findall(r'(.*ptr \[).*', line.disasm[2])[0] + replacement + ']'
+                    logger.info("optimization5: line:%s", line.disasm)
+
                 except:
                     pass
             # int op1 xs:[reg]
             elif line.disasm[2].__contains__('s:[') and line.disasm[2].endswith(']'):
                 try:
                     line.disasm[2] = '[%s]' % prev_line.ctx[get_reg(re.findall(r'.*s:\[(.*)\]', line.disasm[2])[0], trace.ctx_reg_size)]
+                    logger.info("optimization6: line:%s", line.disasm)
+
                 except:
                     pass
             # inst reg op2 should not be replaced since it harms readability
             if get_reg_class(line.disasm[2]) is not None and 'cmp' == line.disasm[0]:
                 line.disasm[1] = prev_line.ctx[get_reg(line.disasm[1], trace.ctx_reg_size)]
+                logger.info("optimization7: line:%s", line.disasm)
+
             # inst [reg] op2 or inst [reg or mem +/-/... reg or mem] op2
             elif line.disasm[1].startswith('[') and line.disasm[1].endswith(']'):
                 try:
@@ -171,9 +189,13 @@ def optimization_const_propagation(trace):
                     result = interprete_math_expr(operand_list, expr)
 
                     line.disasm[1] = '[' + hex(result).lstrip('0x').upper() + ''.join(c for c in exception_list) + ']'
+                    logger.info("optimization8: line:%s", line.disasm)
+
                 except:  # if it fails, we are in case inst [reg] op2
                     if get_reg_class(line.disasm[1][1:-1]) is not None:
                         line.disasm[1] = prev_line.ctx[get_reg(line.disasm[1][1:-1], trace.ctx_reg_size)]
+                        logger.info("optimization9: line:%s", line.disasm)
+
             # inst byte/word/other ptr [reg], op2
             elif line.disasm[1].__contains__('ptr'):
                 try:
@@ -182,6 +204,8 @@ def optimization_const_propagation(trace):
                         reg.replace('+0', '')
                     replacement = prev_line.ctx[get_reg(reg, trace.ctx_reg_size)]
                     line.disasm[1] = re.findall(r'(.*ptr \[).*', line.disasm[1])[0] + replacement + ']'
+                    logger.info("optimization10: line:%s", line.disasm)
+
                 except:
                     pass
         elif len(line.disasm) == 2:
@@ -214,6 +238,7 @@ def optimization_const_propagation(trace):
                         result = interprete_math_expr(operand_list, expr)
                         pre = re.findall(r'(.*\[).*', line.disasm[1])[0]
                         line.disasm[1] = pre + hex(result).lstrip('0x').upper() + ''.join(c for c in exception_list if len(exception_list) > 1) + ']'
+                        logger.info("optimization11: line:%s", line.disasm)
                 except:
                     pass
 
